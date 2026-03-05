@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vision-in-a-Box</title>
+</head>
+<body>
+    <h1>AI Object Detection</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="detect()">Detect Objects</button>
+    <hr>
+    <h3>Results:</h3>
+    <pre id="output" style="background: #eee; padding: 10px;"></pre>
+
+    <script>
+        async function detect() {
+            const fileInput = document.getElementById('imageInput');
+            if (fileInput.files.length === 0) return alert("Please select a file!");
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            const output = document.getElementById('output');
+            output.innerText = "Processing...";
+
+            try {
+                // ยิงไปที่ /api/ ซึ่ง Nginx จะส่งต่อไปที่ AI Container ให้เอง
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                output.innerText = JSON.stringify(data, null, 2);
+            } catch (err) {
+                output.innerText = "Error: " + err;
+            }
+        }
+    </script>
+</body>
+</html>
