@@ -4,25 +4,24 @@ import io
 from PIL import Image
 
 app = FastAPI()
-model = YOLO("yolov8n.pt")  # จะโหลดโมเดลขนาดเล็กที่สุดมาใช้
+model = YOLO("yolov8n.pt")  # โหลดโมเดลขนาดเล็กที่รันเร็ว
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    # อ่านไฟล์รูปที่ส่งมา
+    # อ่านไฟล์ภาพที่รับมา
     contents = await file.read()
-    img = Image.open(io.BytesIO(contents))
+    image = Image.open(io.BytesIO(contents))
     
-    # สั่ง YOLO ประมวลผล
-    results = model(img)
+    # รัน YOLO Inference
+    results = model(image)
     
-    # ดึงค่า JSON ออกมา (Class, Confidence, Box)
     predictions = []
     for r in results:
         for box in r.boxes:
             predictions.append({
                 "class": model.names[int(box.cls)],
                 "confidence": float(box.conf),
-                "bbox": box.xyxy.tolist()[0]
+                "bbox": box.xyxy[0].tolist()  # [x1, y1, x2, y2]
             })
             
     return {"predictions": predictions}

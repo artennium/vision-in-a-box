@@ -1,0 +1,15 @@
+วิธีใช้งานของ Vision-in-a-box
+
+    เปิดหน้า terminal แล้วพิมพ์ cd vision-in-a-box/
+
+    พิมพ์คำสั่งว่า sudo docker compose up --build แล้วรอให้รันจนเสร็จ
+
+    เปิด Browser (Chrome, Firefox หรือ Edge)
+
+    พิมพ์ที่ช่อง Address ว่า: http://localhost
+
+    คุณจะเห็นหน้าเว็บ AI Object Detection ที่เราสร้างไว้
+
+    ลองกดปุ่ม "Choose File" เพื่อเลือกรูปภาพจากเครื่องคุณ (ลองหารูปที่มี คน, รถ, หรือสัตว์ดูครับ)
+
+    กดปุ่ม "Detect Objects"
